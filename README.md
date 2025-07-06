@@ -32,9 +32,9 @@
 
 # ◾️ユーザーの獲得について
 
-## SNS(主にX)での利用者、レビューの獲得を行います。
+### 1 SNS(主にX)での利用者、レビューの獲得を行います。
 
-## このアプリの原点となる姉、そしてその周囲の学校教諭の皆さんに使って頂く
+### 2 このアプリの原点となる姉、そしてその周囲の学校教諭の皆さんに使って頂く
 
 # ◾️技術スタック
 |  項目  |  技術  |
@@ -56,7 +56,7 @@
 - User(id, email, first_name, last_name, encrypted_password, created_at, updated_at)
 - Parking(id, latitude, longitude, address, name, floor, user_id, created_at, updated_at)
 - Route(id, origin, destination, waypoints, distance, duration, raw_route_data, user_id, created_at)
-- TripPlan(id, user_id, arrival_time, departure_time, noyify_at, notified)
+- TripPlan(id, user_id, arrival_time, departure_time, notify_at, notified)
 
 # ◾️MVPまでに実装する機能
 
