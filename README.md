@@ -47,6 +47,7 @@
 | デプロイ | Render |
 | 地図 | Google maps platform |
 | 住所を地図座標に変換 | Geocoding API |
+| ルートのリアルタイム追跡 | Directions API + Maps Javascript API + Geolocation API |
 | 施設名の曖昧検索 | Places API |
 | 地図上にクリックして場所選択 | Maps JavaScript API |
 | ルート検索 | Directions API |
@@ -54,9 +55,9 @@
 
 # ◾️モデル構成
 - User(id, email, first_name, last_name, encrypted_password, created_at, updated_at)
-- Parking(id, latitude, longitude, address, name, floor, user_id, created_at, updated_at)
+- Parking(id, latitude, longitude, address, datetime, floor, user_id, created_at, updated_at)
 - Route(id, origin, destination, waypoints, distance, duration, raw_route_data, user_id, created_at)
-- TripPlan(id, user_id, arrival_time, departure_time, notify_at, notified)
+- TripPlan(id, user_id, route_id, arrival_time, departure_time, notify_at, notified)
 
 # ◾️MVPまでに実装する機能
 
@@ -75,3 +76,6 @@
 * [] 選択した場所に名前をつけて保存（ログイン後）
 * [] 駐車場の位置保存（立駐は階数を記入可能に）
 
+# ◾️画面遷移図
+
+[こちらから](https://www.figma.com/design/xR8C2mieQqLhdE6i9scIhG/Figma-basics?node-id=2766-96&p=f&m=draw)
