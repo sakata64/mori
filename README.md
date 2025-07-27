@@ -79,3 +79,6 @@
 # ◾️画面遷移図
 
 [こちらから](https://www.figma.com/design/xR8C2mieQqLhdE6i9scIhG/Figma-basics?node-id=2766-96&p=f&m=draw)
+
+# ◾️ER図
+[![Image from Gyazo](https://i.gyazo.com/8663ac5b973013cae789cf627a3bbe6b.jpg)](https://gyazo.com/8663ac5b973013cae789cf627a3bbe6b)
