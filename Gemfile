@@ -17,6 +17,7 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 gem 'devise'
 gem 'geocoder'
+gem 'bootsnap', require: false
 
 group :development, :test do
   gem 'rspec-rails'
