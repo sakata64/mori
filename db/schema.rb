@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_03_033004) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_03_082636) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_033004) do
   create_table "route_segments", force: :cascade do |t|
     t.bigint "starting_point_id", null: false
     t.bigint "destination_id", null: false
-    t.float "distance", null: false
+    t.decimal "distance", precision: 8, scale: 2, null: false
     t.integer "duration", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -71,6 +71,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_033004) do
     t.integer "order_index", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "route_id", null: false
+    t.index ["route_id"], name: "index_selected_route_segments_on_route_id"
     t.index ["route_segment_id"], name: "index_selected_route_segments_on_route_segment_id"
   end
 
@@ -101,5 +103,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_033004) do
   add_foreign_key "route_segments", "starting_points"
   add_foreign_key "routes", "users"
   add_foreign_key "selected_route_segments", "route_segments"
+  add_foreign_key "selected_route_segments", "routes"
   add_foreign_key "starting_points", "locations"
 end
