@@ -81,5 +81,5 @@
 [こちらから](https://www.figma.com/design/xR8C2mieQqLhdE6i9scIhG/Figma-basics?node-id=2766-96&p=f&m=draw)
 
 # ◾️ER図
-[![Image from Gyazo](https://i.gyazo.com/e565e02d84b5596547125381f5e8dc03.jpg)](https://gyazo.com/e565e02d84b5596547125381f5e8dc03)
+[![Image from Gyazo](https://i.gyazo.com/7e96586223b27f37598947e562bb49f4.jpg)](https://gyazo.com/7e96586223b27f37598947e562bb49f4)
 [URLはこちら](https://app.diagrams.net/?src=about#G1lW5tENcvqQzEesh9Gtb2Tra8_Y00TAHI#%7B%22pageId%22%3A%22R2lEEEUBdFMjLlhIrx00%22%7D)
