@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_03_031600) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_03_032432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_031600) do
     t.index ["starting_point_id"], name: "index_route_segments_on_starting_point_id"
   end
 
+  create_table "selected_route_segments", force: :cascade do |t|
+    t.bigint "route_segment_id", null: false
+    t.integer "order_index", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["route_segment_id"], name: "index_selected_route_segments_on_route_segment_id"
+  end
+
   create_table "starting_points", force: :cascade do |t|
     t.bigint "location_id", null: false
     t.datetime "created_at", null: false
@@ -79,5 +87,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_031600) do
   add_foreign_key "locations", "users"
   add_foreign_key "route_segments", "destinations"
   add_foreign_key "route_segments", "starting_points"
+  add_foreign_key "selected_route_segments", "route_segments"
   add_foreign_key "starting_points", "locations"
 end
