@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_03_082636) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_03_083526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_082636) do
     t.index ["location_id"], name: "index_starting_points_on_location_id"
   end
 
+  create_table "trip_plans", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "route_segment_id", null: false
+    t.datetime "departure_time", null: false
+    t.datetime "arrival_time", null: false
+    t.integer "length_of_stay"
+    t.string "name"
+    t.text "memo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["route_segment_id"], name: "index_trip_plans_on_route_segment_id"
+    t.index ["user_id"], name: "index_trip_plans_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -105,4 +119,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_03_082636) do
   add_foreign_key "selected_route_segments", "route_segments"
   add_foreign_key "selected_route_segments", "routes"
   add_foreign_key "starting_points", "locations"
+  add_foreign_key "trip_plans", "route_segments"
+  add_foreign_key "trip_plans", "users"
 end
