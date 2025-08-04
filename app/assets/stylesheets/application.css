@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+#splide {
+  max-width: 600px;
+  margin: 0 auto;
+}

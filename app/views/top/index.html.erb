@@ -1,3 +1,12 @@
 <h1>Sketto</h1>
+<div id="splide" class="splide">
+  <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide"><img src="<%= asset_path 'intro_page1.png' %>" alt="Slide 01"></li>
+      <li class="splide__slide"><img src="<%= asset_path 'intro_page2.png' %>" alt="Slide 02"></li>
+      <li class="splide__slide"><img src="<%= asset_path 'intro_page3.png' %>" alt="Slide 03"></li>
+    </ul>
+  </div>
+</div>
 <%= link_to "使ってみる", new_user_session_path, class: "btn btn-primary" %>
 <%= link_to "ログインして始める", how_to_go_path, class: "btn btn-primary" %>
