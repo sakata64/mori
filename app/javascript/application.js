@@ -1,7 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-import Splide from "@splidejs/splide";
+import Splide from "https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.esm.min.js";
 
-document.addEventListener('turbo:load', function(){
+document.addEventListener('DOMContentLoaded', function(){
   console.log("splide_started"); //デバッグ
   new Splide('#splide', {
     type: 'loop',
