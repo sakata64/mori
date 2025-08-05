@@ -17,7 +17,9 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 #bundlerをインストールして依存関係を解決
+#本番ビルド時にrender内でプリコンパイルされる
 RUN gem install bundler && bundle install
+RUN bundle exec rails assets:precompile
 
 #アプリの前ファイルをコピー
 COPY . .
