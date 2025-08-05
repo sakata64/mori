@@ -2,7 +2,6 @@
 import Splide from "https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.esm.min.js";
 
 document.addEventListener('DOMContentLoaded', function(){
-  console.log("splide_started"); //デバッグ
   new Splide('#splide', {
     type: 'loop',
     autoplay: true,
