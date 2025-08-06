@@ -11,4 +11,14 @@ Rails.application.routes.draw do
   get 'how_to_go', to: 'how_to_go#index'
   # Defines the root path route ("/")
   # root "posts#index"
+  if Rails.env.production?
+    require 'rake'
+    Rails.application.load_tasks
+  
+    get "/migrate", to: proc {
+      Rake::Task["db:migrate"].reenable
+      Rake::Task["db:migrate"].invoke
+      [200, {}, ["Migration complete!"]]
+    }
+  end
 end
