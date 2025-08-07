@@ -13,6 +13,11 @@
         {
           origin: "東京駅",
           destination: "浅草寺",
+          waypoints: [
+            { location: "上野駅", stopover: true },
+            { location: "秋葉原駅", stopover: true }
+          ],
+          optimizeWaypoints: true,
           travelMode: google.maps.TravelMode.DRIVING
         },
         (response, status) => {
