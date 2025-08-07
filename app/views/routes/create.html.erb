@@ -1,2 +1,31 @@
-<h1>Routes#create</h1>
-<p>Find me in app/views/routes/create.html.erb</p>
+<head>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9fL2lLvhcjNSRy7I9ONoZlZt1kR_WMNA&callback=initMap">
+  </script>
+
+  <style>
+    #map {
+      heigtht: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ルート作成</h1>
+  <div id="map"></div>
+
+  <script>
+    function initMap() {
+      const location = { lat: 35.6812, lng:139.7671 };
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: location,
+      })
+      new google.maps.Market({
+        position: location,
+        map: map,
+      });
+    }
+  </script>
+</body>
