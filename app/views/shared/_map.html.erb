@@ -1,14 +1,28 @@
 <script>
     function initMap() {
-      const location = { lat: 35.6812, lng:139.7671 };
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
-        center: location,
-      })
-      new google.maps.Marker({
-        position: location,
-        map: map,
+        zoom: 7,
+        center: {lat: 35.6812, lng: 139.7671}
       });
+
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+
+      directionsService.route(
+        {
+          origin: "東京駅",
+          destination: "浅草寺",
+          travelMode: google.maps.TravelMode.DRIVING
+        },
+        (response, status) => {
+          if (status === "OK"){
+            directionsRenderer.setDirections(response);
+          } else {
+            alert("ルートの取得に失敗しました: " + status);
+          }
+        }
+      );
     }
   </script>
   <script async defer
