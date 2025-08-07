@@ -18,6 +18,7 @@ gem 'stimulus-rails'
 gem 'devise'
 gem 'geocoder'
 gem 'bootsnap', require: false
+gem 'dotenv-rails', groups: [:development, :test]
 
 group :development, :test do
   gem 'rspec-rails'
