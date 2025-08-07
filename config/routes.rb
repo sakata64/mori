@@ -8,9 +8,7 @@ Rails.application.routes.draw do
 
   root 'top#index'
 
-  get 'how_to_go', to: 'how_to_go#index'
-
-  resources :routes, only[:new, :create, :show]
+  resources :routes, only: [:new, :create, :show]
   # Defines the root path route ("/")
   # root "posts#index"
 end

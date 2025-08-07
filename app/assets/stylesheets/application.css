@@ -26,3 +26,8 @@
   display: block;
   object_fit: contain; 
 }
+
+#map {
+  height: 400px;
+  width: 100%;
+}
