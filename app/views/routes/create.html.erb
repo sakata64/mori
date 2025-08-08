@@ -3,6 +3,10 @@
   <input type="text" id="address" placeholder="住所住所や施設名を入力">
   <button onclick="geocodeAddress()">検索</button>
   
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap">
+  </script>
+  
   <%= render 'shared/map' %>
   <div id="map"></div>
 </body>
