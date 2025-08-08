@@ -1,5 +1,8 @@
 <body>
   <h1>ルート作成</h1>
+  <input type="text" id="address" placeholder="住所住所や施設名を入力">
+  <button onclick="geocodeAddress()">検索</button>
+  
   <%= render 'shared/map' %>
   <div id="map"></div>
 </body>

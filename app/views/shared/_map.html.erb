@@ -1,35 +1,61 @@
 <script>
-    function initMap() {
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 7,
-        center: {lat: 35.6812, lng: 139.7671}
-      });
+  let map;
+  let geocoder;
+  let marker;
 
-      const directionsService = new google.maps.DirectionsService();
-      const directionsRenderer = new google.maps.DirectionsRenderer();
-      directionsRenderer.setMap(map);
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 7,
+      center: {lat: 35.6812, lng: 139.7671}
+    });
 
-      directionsService.route(
-        {
-          origin: "東京駅",
-          destination: "浅草寺",
-          waypoints: [
-            { location: "上野駅", stopover: true },
-            { location: "秋葉原駅", stopover: true }
-          ],
-          optimizeWaypoints: true,
-          travelMode: google.maps.TravelMode.DRIVING
-        },
-        (response, status) => {
-          if (status === "OK"){
-            directionsRenderer.setDirections(response);
-          } else {
-            alert("ルートの取得に失敗しました: " + status);
-          }
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+    directionsService.route(
+      {
+        origin: "東京駅",
+        destination: "浅草寺",
+        waypoints: [
+          { location: "上野駅", stopover: true },
+          { location: "秋葉原駅", stopover: true }
+        ],
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+      },
+      (response, status) => {
+        if (status === "OK"){
+          directionsRenderer.setDirections(response);
+        } else {
+          alert("ルートの取得に失敗しました: " + status);
         }
-      );
-    }
-  </script>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap">
-  </script>
+      }
+    );
+
+    geocoder = new google.maps.Geocoder();
+  }
+
+  function geocodeAddress(){
+    const address = document.getElementById("address").value;
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === "OK"){
+        const location = results[0].geometry.location;
+        map.setCenter(location);
+        if (marker) {
+          marker.setMap(null);
+        }
+        marker = new google.maps.Marker({
+          map: map,
+          position: location
+        });
+      } else {
+        alert("ジオコーディングに失敗しました: "+ status);
+      }
+    });
+  }
+</script>
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&callback=initMap">
+</script>
