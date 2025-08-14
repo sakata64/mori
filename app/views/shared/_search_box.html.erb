@@ -1,3 +1,4 @@
+<%= render 'shared/maps_ready' %>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const startBtn = document.getElementById("searchStartBtn");
@@ -10,6 +11,8 @@
       if (!btn || !input) return;
 
       btn.addEventListener("click", async () => {
+        await window.mapsReady;
+        
         if (!window.map){
           alert("地図が読み込まれていません");
           return;
@@ -20,6 +23,9 @@
           alert("まずマーカーを配置してください");
           return;
         }
+
+        const center = window.searchCenter;
+        const delta = 0.018;
 
         const query = input.value.trim();
         if (!query){
@@ -32,7 +38,15 @@
 
           const request = {
             textQuery: query,
-            locationBias: { point: window.searchCenter },
+            locationBias: { 
+              // #矩形の範囲で検索
+              rectangle: {
+                south: center.lat - delta,
+                west: center.lng - delta,
+                north: center.lat + delta,
+                east: center.lng + delta
+              }
+            },
             fields: ["displayName","location","formattedAddress"]
           };
           const response = await Place.searchByText(request);
@@ -47,8 +61,10 @@
             const marker = new google.maps.Marker({
               map: window.map,
               position: place.location,
-              title: place.displayName
+              title: (place.displayName && place.displayName.text) ? place.displayName.text : ""
             });
+            window.markers = window.markers || [];
+            // #作ったマーカーを配列window.markersに保存
             window.markers.push(marker);
           });
         } catch (error) {

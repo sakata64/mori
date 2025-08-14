@@ -1,0 +1,12 @@
+<script>
+  // #Google Maps APIがinitMapを読んだらresolveが実行、resolveされるとGoogleMapsAPIの準備ができた合図
+  window.mapsReady = new Promise ((resolve) => {
+    if (window.google && window.google.maps){
+      resolve();
+    } else {
+      window.initmap = () => {
+        resolve();
+      };
+    }
+  });
+</script>
