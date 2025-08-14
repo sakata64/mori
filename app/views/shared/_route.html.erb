@@ -1,0 +1,27 @@
+<script>
+  function drawRoute(){
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+
+    directionsService.route(
+      {
+        origin: "東京駅",
+        destination: "浅草寺",
+        waypoints: [
+          { location: "上野駅", stopover: true },
+          { location: "秋葉原駅", stopover: true }
+        ],
+        optimizeWaypoints: true,
+        travelMode: google.maps.TravelMode.DRIVING
+      },
+      (response, status) => {
+        if (status === "OK"){
+          directionsRenderer.setDirections(response);
+        } else {
+          alert("ルートの取得に失敗しました: " + status);
+        }
+      }
+    );
+  }
+</script>

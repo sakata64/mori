@@ -1,47 +1,63 @@
-<!-- places APIを使って現在地（地図中心）から半径2km以内の駐車場を検索し、地図上にマーカーを立てる -->
 <script>
-// #Googleの施設検索サービスを扱う変数
-  let placesService;
-// #準備ができたらボタンにクリック処理をつける
   document.addEventListener("DOMContentLoaded", () => {
-// #HTML内でid=searchnearbyを探してなかったらこの機能を終わる（安全策）
-    const searchBtn = document.getElementById("searchNearby");
-    if (!searchBtn) return;
-// #ボタンクリック時にwindow.map(GoogleMapsの地図オブジェクト)を確認してなかったら処理を中止してエラー
-    searchBtn.addEventListener("click", () => {
-      if (!window.map) {
-        alert("地図が読み込まれていません");
-        return;
-      }
+    const startBtn = document.getElementById("searchStartBtn");
+    const startInput = document.getElementById("start_address");
 
-// #PlacesServiceの準備　placesServiceが作られていない時作る。window.mapを渡すことで「この地図を使って検索する」という設定になる
-      if (!placesService) {
-        placesService = new google.maps.places.PlacesService(window.map);
-      }
-// #getCenter()で地図の中心緯度経度を取得、radius: 2000は検索範囲を2kmに指定、type:["parking"]は施設の種類を駐車場に指定
-      const center = window.map.getCenter();
-      const request = {
-        location: {
-          lat: center.lat(),
-          lng: center.lng()
-        },
-        radius: 2000,
-        type: ["parking"]
-      };
-// #Places APIで検索　nearbySearch()で検索実行　成功するとresultsに駐車場情報配列で入る　それぞれの場所にピンがたつ　失敗の時はアラーム　
-      placesService.nearbySearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          results.forEach(place => {
-            new google.maps.Marker({
+    const destBtn = document.getElementById("searchDestBtn");
+    const destInput = document.getElementById("destination_address");
+
+    function setupSearch(btn, input) {
+      if (!btn || !input) return;
+
+      btn.addEventListener("click", async () => {
+        if (!window.map){
+          alert("地図が読み込まれていません");
+          return;
+        }
+       
+        // #クリックで置いたマーカーの位置を検索の中心に  
+        if (!window.searchCenter) {
+          alert("まずマーカーを配置してください");
+          return;
+        }
+
+        const query = input.value.trim();
+        if (!query){
+          alert("検索語を入力してください");
+          return;
+        }
+
+        try{
+          const {Place} = await google.maps.importLibrary("places");
+
+          const request = {
+            textQuery: query,
+            locationBias: { point: window.searchCenter },
+            fields: ["displayName","location","formattedAddress"]
+          };
+          const response = await Place.searchByText(request);
+          // #既存のマーカーを消す処理
+          if (window.markers) {
+            window.markers.forEach(marker => marker.setMap(null));
+          }
+          window.markers = [];
+        
+          // #検索結果にマーカーを立てる  
+          response.results.forEach(place => {
+            const marker = new google.maps.Marker({
               map: window.map,
-              position: place.geometry.location,
-              title: place.name
+              position: place.location,
+              title: place.displayName
             });
+            window.markers.push(marker);
           });
-        } else {
-          alert("駐車場の検索に失敗しました: " + status);
+        } catch (error) {
+          alert("検索に失敗しました: " + error.message);
         }
       });
-    });
+    }
+    
+    setupSearch(startBtn, startInput);
+    setupSearch(destBtn, destInput);
   });
 </script>

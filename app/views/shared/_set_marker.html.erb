@@ -1,0 +1,28 @@
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let selectedMarker = null;
+
+    if (!window.map) {
+      console.warn("地図が読み込まれていません");
+      return;
+    }
+
+    // マップクリックでマーカー配置
+    window.map.addListener("click", (event) => {
+    // 既存のマーカーを削除
+      if (selectedMarker) {
+        selectedMarker.setMap(null);
+      }
+
+    // 新しいマーカーを配置
+      selectedMarker = new google.maps.marker.AdvancedMarkerElement({
+        position: event.latLng,
+        map: window.map,
+        title: "選択地点"
+      });
+    
+    // 検索用に座標を保存
+      window.searchCenter = event.latLng;
+    });
+  });
+</script>

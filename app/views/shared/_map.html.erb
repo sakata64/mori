@@ -1,64 +1,14 @@
 <script>
-  let map;
-  let geocoder;
-  let marker;
-
   function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
+    window.map = new google.maps.Map(document.getElementById("map"), {
       zoom: 7,
-      center: {lat: 35.6812, lng: 139.7671}
+      center: {lat: 35.6812, lng: 139.7671},
+      mapId: "56e6f7b7602076fe1ca74db5"
     });
-
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
-
-    directionsService.route(
-      {
-        origin: "東京駅",
-        destination: "浅草寺",
-        waypoints: [
-          { location: "上野駅", stopover: true },
-          { location: "秋葉原駅", stopover: true }
-        ],
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.DRIVING
-      },
-      (response, status) => {
-        if (status === "OK"){
-          directionsRenderer.setDirections(response);
-        } else {
-          alert("ルートの取得に失敗しました: " + status);
-        }
-      }
-    );
-
-    geocoder = new google.maps.Geocoder();
+    // #マップ初期完了を通知
+    if (typeof drawRoute === "function") {
+      drawRoute();
+    }
   }
-
-  function geocodeAddress(){
-    // #addressに入力された場所の文字列を取得
-    const address = document.getElementById("address").value;
-    // #geocoderはgeocodeingを使うためのオブジェクト
-    // #.geocodeメソッドに住所教えて、とリクエストする
-    geocoder.geocode({ address: address }, (results, status) => {
-    // #resultsは候補の配列 results[0]は最もマッチした候補で、その緯度経度を取り出す
-      if (status === "OK"){
-        const location = results[0].geometry.location;
-    // #地図の中心を移動
-        map.setCenter(location);
-        if (marker) {
-    // #マーカーがすでにあれば消す
-          marker.setMap(null);
-        }
-    // #新たにマーカーを作って置く
-        marker = new google.maps.Marker({
-          map: map,
-          position: location
-        });
-      } else {
-        alert("ジオコーディングに失敗しました: "+ status);
-      }
-    });
-  }
+  window.initMap = initMap;
 </script>
