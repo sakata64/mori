@@ -1,14 +1,16 @@
 <script>
+  // #Google Maps API callback. ここでマップを生成しmapsreadyを解決
   function initMap() {
     window.map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 7,
-      center: {lat: 35.6812, lng: 139.7671},
-      mapId: "56e6f7b7602076fe1ca74db5"
+      center: { lat: 35.6812, lng: 139.7671 },
+      zoom: 15
     });
-    // #マップ初期完了を通知
-    if (typeof drawRoute === "function") {
-      drawRoute();
+
+    // Promiseを解決（地図生成完了通知)
+    if (window.__resolveMapsReady) {
+      window.__resolveMapsReady(window.map);
     }
   }
+  // #callbackとして参照されるようにグローバルへ登録
   window.initMap = initMap;
 </script>

@@ -1,26 +1,33 @@
-<%= render 'shared/maps_ready' %>
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
+    console.log("mapsReady1")
+    // #マップの生成完了まで待機
     await window.mapsReady;
     
-    let selectedMarker = null;
+    // #生成済みマップを取得
+    const map = window.map;
+    console.log("mapsReady2")
 
-    if (!window.map) {
+    if (!map) {
       console.warn("地図が読み込まれていません");
       return;
     }
 
+    // #マーカーが無い、という初期状態を作る
+    let selectedMarker = null;
+
     // #マップクリックでマーカー配置
     window.map.addListener("click", (event) => {
-    // 既存のマーカーを削除
+      console.log("mapsReady3")
+    // #既存のマーカーを削除
       if (selectedMarker) {
         selectedMarker.setMap(null);
       }
 
     // #新しいマーカーを配置
-      selectedMarker = new google.maps.marker.AdvancedMarkerElement({
+      selectedMarker = new google.maps.Marker({
         position: event.latLng,
-        map: window.map,
+        map: map,
         title: "選択地点"
       });
     
