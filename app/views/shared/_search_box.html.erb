@@ -1,79 +1,54 @@
-<%= render 'shared/maps_ready' %>
 <script>
+  // #完全一致検索＋ピン設置
+  async function searchExactPlace(query) {
+    const {Place} = await google.maps.importLibrary("places");
+    console.log("Placeライブラリが呼ばれました");
+
+    const request = {
+      textQuery: query,
+      fields: ["location"],
+      // #東京駅周辺５キロのように検索範囲を与える
+      locationBias: {lat:35.6812, lng:139.7671}
+    };
+
+    const result = await Place.searchByText(request);
+    console.log(result);
+
+   // #結果が一件もなければ終了
+   if (!result.places || result.places.length === 0) {
+    alert("該当する施設が見つかりませんでした");
+    return;
+   }
+
+   // #最初の一件のlocationにピンを立てる
+    const location = result.places[0].location;
+    
+    if (window.exactMarker) {
+      window.exactMarker.setMap(null);
+    }
+    window.exactMarker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+
+    // #マップをその位置に移動
+    map.panTo(location);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
-    const startBtn = document.getElementById("searchStartBtn");
-    const startInput = document.getElementById("start_address");
+    const btn = document.getElementById("searchBtn");
+    const input = document.getElementById("address");
+    console.log("検索ボタンアクションが呼ばれました");
 
-    const destBtn = document.getElementById("searchDestBtn");
-    const destInput = document.getElementById("destination_address");
-
-    function setupSearch(btn, input) {
-      if (!btn || !input) return;
-
-      btn.addEventListener("click", async () => {
-        await window.mapsReady;
-        
-        if (!window.map){
-          alert("地図が読み込まれていません");
-          return;
-        }
-       
-        // #クリックで置いたマーカーの位置を検索の中心に  
-        if (!window.searchCenter) {
-          alert("まずマーカーを配置してください");
-          return;
-        }
-
-        const center = window.searchCenter;
-        const delta = 0.018;
-
-        const query = input.value.trim();
-        if (!query){
-          alert("検索語を入力してください");
-          return;
-        }
-
-        try{
-          const {Place} = await google.maps.importLibrary("places");
-
-          const request = {
-            textQuery: query,
-            locationBias: { 
-              // #矩形の範囲で検索
-              rectangle: {
-                south: center.lat - delta,
-                west: center.lng - delta,
-                north: center.lat + delta,
-                east: center.lng + delta
-              }
-            },
-            fields: ["displayName","location","formattedAddress"]
-          };
-          const response = await Place.searchByText(request);
-          // #既存のマーカーを消す処理
-          if (window.markers) {
-            window.markers.forEach(marker => marker.setMap(null));
-          }
-          window.markers = [];
-        
-          // #検索結果にマーカーを立てる  
-          response.results.forEach(place => {
-            const marker = new google.maps.Marker({
-              map: window.map,
-              position: place.location,
-              title: (place.displayName && place.displayName.text) ? place.displayName.text : ""
-            });
-            window.markers = window.markers || [];
-            // #作ったマーカーを配列window.markersに保存
-            window.markers.push(marker);
-          });
-        } catch (error) {
-          alert("検索に失敗しました: " + error.message);
+    if (btn && input) {
+      btn.addEventListener("click", () => {
+        // #入力欄に入れられた文字を取得し、前後の空白を削除してvalueに入れる
+        const value = input.value.trim();
+        // #valueに値があればsearchExactPlace関数を実行
+        if (value) {
+          searchExactPlace(value);
         }
       });
     }
-    
-    setupSearch(startBtn, startInput);
-    setupSearch(destBtn, destInput);
   });
 </script>

@@ -1,12 +1,12 @@
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
-    console.log("mapsReady1")
+    console.log("マーカーイベントが発火しました");
     // #マップの生成完了まで待機
     await window.mapsReady;
     
     // #生成済みマップを取得
     const map = window.map;
-    console.log("mapsReady2")
+    console.log("生成済みマップを取得しました");
 
     if (!map) {
       console.warn("地図が読み込まれていません");
@@ -18,7 +18,7 @@
 
     // #マップクリックでマーカー配置
     window.map.addListener("click", (event) => {
-      console.log("mapsReady3")
+      console.log("マーカーが置かれました");
     // #既存のマーカーを削除
       if (selectedMarker) {
         selectedMarker.setMap(null);
