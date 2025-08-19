@@ -1,27 +1,45 @@
 <script>
-// #getCenter()で地図の中心緯度経度を取得、radius: 2000は検索範囲を2kmに指定、query:"parking"は施設の種類を駐車場に指定
   async function searchParking(){
-    const center = window.map.getCenter();
+    // #set_markerで保存してある"最後においたマーカーの座標"
+    const center = window.searchCenter;
+    console.log("マーカーを取得しました");
+
+    if (!center){
+      alert("マーカーを設置してください");
+      return;
+    }
+
     try {
-      const places = await google.maps.importLibrary("places");
+      // #Placesライブラリをロード
+      const { Place } = await google.maps.importLibrary("places");
+
+      // #新APIではlocationBiasに{lat,lng}を渡す（radiusは使えない）
       const request = {
         textQuery: "parking",
-        locationBias: {
-          circle: { center: center, radius: 2000 }
-        },
-        fields: ["displayName", "location", "id"]
+        locationBias: { lat: center.lat(), lng: center.lng() },
+        fields: ["location"]
       };
 
   
-      const response = await places.Place.searchByText(request);
+      const result = await Places.searchByText(request);
 
-      response.results.forEach(place => {
-        new google.maps.Marker({
+      if (!result.places || result.places.length === 0) {
+        alert("周辺に駐車場が見つかりませんでした");
+        return;
+      }
+
+      // #複数返ってくるので、一件ずつマーカー表示
+      result.places.forEach(place => {
+        new google.maps.marker.AdvancedMarkerElement({
           map: window.map,
           position: place.location,
-          title: place.displayName,
         });
       });
+
+      // #マップを最初の駐車場に合わせてパン
+      // #panToとは地図の中心をゆっくりと滑らせながら移動させるメソッド
+      window.map.panTo(result.places[0].location);
+
     } catch (error) {
       alert("駐車場の検索に失敗しました: " + error.message);
     }
@@ -29,6 +47,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("searchNearby");
+
     if (btn) {
       btn.addEventListener("click", searchParking);
     }
