@@ -1,21 +1,27 @@
 <script>
   async function drawRoute(){
-    console.log("マップの読み込みを待っています");
     await window.mapApiLoaded;
-    console.log("window.map: ", window.map);
+
+    // #まず現在地を取得
+    navigator.geolocation.watchPosition((pos) =>{
+      const currentPos = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      };
+      window.currentPos = currentPos;
 
     // #DirectionsAPIで使うオブジェクトの生成
     const directionsService = new google.maps.DirectionsService();
     // #取得したルートをマップに表示
     const directionsRenderer = new google.maps.DirectionsRenderer();
     // #どのマップにルートを描画するかを指定
-    directionsRenderer.setMap(map);
+    directionsRenderer.setMap(window.map);
 
     console.log("ルート描画の準備ができました");
 
     directionsService.route(
       {
-        origin: "東京駅",
+        origin: currentPos,
         destination: "浅草寺",
         waypoints: [
           { location: "上野駅", stopover: true },

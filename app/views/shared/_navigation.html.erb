@@ -2,12 +2,8 @@
   function startNavigation() {
     // #現在地マーカー
     let currentMarker;
-
-    // #現在地を取得し続ける
-    navigator.geolocation.watchPosition((pos) =>{
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      const currentPos = { lat, lng };
+    // #drawRouteで取得された現在地を使う
+    const currentPos = window.currentPos;
 
       // #最初の一回はマーカーを作成。それ以降はそれを更新
       if (!currentMarker) {
