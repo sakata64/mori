@@ -1,4 +1,5 @@
 <script>
+  // #地図生成後に「読み込み完了」を通知するためにinitMapをラップ
   // #Google Maps API callback. ここでマップを生成しmapsreadyを解決
   function initMap() {
     window.map = new google.maps.Map(document.getElementById("map"), {

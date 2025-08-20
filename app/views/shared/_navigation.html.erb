@@ -1,0 +1,33 @@
+<script>
+  function startNavigation() {
+    // #現在地マーカー
+    let currentMarker;
+
+    // #現在地を取得し続ける
+    navigator.geolocation.watchPosition((pos) =>{
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      const currentPos = { lat, lng };
+
+      // #最初の一回はマーカーを作成。それ以降はそれを更新
+      if (!currentMarker) {
+        currentMarker = new google.maps.Marker({
+          position: currentPos,
+          map: window.map,
+          title: "現在地"
+        });
+      }else{
+        currentMarker.setPosition(currentPos);
+      }
+      // #マップを現在位置へ追従
+      window.map.panTo(currentPos);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const naviBtn = document.getElementById("naviBtn");
+    naviBtn.addEventListener("click", () => {
+      startNavigation();
+    });
+  });
+</script>

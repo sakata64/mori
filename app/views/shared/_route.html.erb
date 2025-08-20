@@ -1,8 +1,17 @@
 <script>
-  function drawRoute(){
+  async function drawRoute(){
+    console.log("マップの読み込みを待っています");
+    await window.mapApiLoaded;
+    console.log("window.map: ", window.map);
+
+    // #DirectionsAPIで使うオブジェクトの生成
     const directionsService = new google.maps.DirectionsService();
+    // #取得したルートをマップに表示
     const directionsRenderer = new google.maps.DirectionsRenderer();
+    // #どのマップにルートを描画するかを指定
     directionsRenderer.setMap(map);
+
+    console.log("ルート描画の準備ができました");
 
     directionsService.route(
       {
@@ -24,4 +33,11 @@
       }
     );
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const drawRouteBtn = document.getElementById("drawRoute");
+    drawRouteBtn.addEventListener("click", () => {
+      drawRoute();
+    });
+  });
 </script>
