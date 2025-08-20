@@ -1,0 +1,54 @@
+<script>
+  // #部分一致検索＋ピン設置
+  async function searchExactPlace(query) {
+    const {Place} = await google.maps.importLibrary("places");
+    console.log("Placeライブラリが呼ばれました");
+
+    const request = {
+      textQuery: query,
+      fields: ["location"],
+      // #東京駅周辺５キロのように検索範囲を与える
+      locationBias: {lat:35.6812, lng:139.7671}
+    };
+
+    const result = await Place.searchByText(request);
+    console.log(result);
+
+   // #結果が一件もなければ終了
+   if (!result.places || result.places.length === 0) {
+    alert("該当する施設が見つかりませんでした");
+    return;
+   }
+
+   // #最初の一件のlocationにピンを立てる
+    const location = result.places[0].location;
+    
+    if (window.exactMarker) {
+      window.exactMarker.setMap(null);
+    }
+    window.exactMarker = new google.maps.Marker({
+      position: location,
+      map: map,
+    });
+
+    // #マップをその位置に移動
+    map.panTo(location);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("searchBtn");
+    const input = document.getElementById("address");
+    console.log("検索ボタンアクションが呼ばれました");
+
+    if (btn && input) {
+      btn.addEventListener("click", () => {
+        // #入力欄に入れられた文字を取得し、前後の空白を削除してvalueに入れる
+        const value = input.value.trim();
+        // #valueに値があればsearchExactPlace関数を実行
+        if (value) {
+          searchExactPlace(value);
+        }
+      });
+    }
+  });
+</script>

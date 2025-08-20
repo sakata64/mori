@@ -1,0 +1,19 @@
+<script>
+  // #MapsAPIが呼ばれたことを保つためのPromise
+  // #Google Maps APIがinitMapを読んだらresolveが実行、resolveされるとGoogleMapsAPIの準備ができた合図
+  // #resolve()が呼ばれた時点でAPIの準備完了となり、次のコードが実行される
+  window.mapApiLoaded = new Promise((resolve) => {
+    if (window.google && window.google.maps) {
+      resolve(); // #APIが読み込まれている時はすぐに解決
+    } else {
+      const originalInitMap = window.initMap;  // #元のinitMap関数を保存(上書きしても元の処理が消えないように)
+      window.initMap = () => {
+        if (typeof originalInitMap === 'function') {
+          originalInitMap();
+        }
+        resolve();
+      };
+    };
+  });
+  console.log ("mapCreated!");
+</script>
