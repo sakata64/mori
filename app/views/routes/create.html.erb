@@ -14,12 +14,13 @@
     src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places,marker&callback=initMap">
   </script>
 
-  <%= render 'shared/maps_ready' %>
   <%= render 'shared/map' %>
+  <%= render 'shared/maps_ready' %>
   <%= render 'shared/set_marker' %>
   <%= render 'shared/search_box' %>
-  <%#= render 'shared/geocode_address' %>
+  <%= render 'shared/geocode_address' %>
   <%= render 'shared/search_parking' %>
+  <%= render 'shared/current_position' %>
   <%= render 'shared/route' %>
   <%= render 'shared/navigation' %>
 </body>

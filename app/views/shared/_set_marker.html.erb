@@ -13,6 +13,9 @@
       return;
     }
 
+    console.log("addListener前のmapの型:", window.map.constructor.name);
+    console.log("addListenerの有無: ", typeof window.map.addListener);
+
     // #マーカーが無い、という初期状態を作る
     let selectedMarker = null;
 
