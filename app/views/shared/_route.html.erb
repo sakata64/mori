@@ -22,8 +22,10 @@
     });
 
     // #DirectionsAPIで使うオブジェクトの生成
+    // #directionsServiceは出発地、目的地、移動手段等をリクエストとして送信すると、GoogleのDirectionsAPIに問い合わせを行うクラス
     const directionsService = new google.maps.DirectionsService();
     // #取得したルートをマップに表示
+    // #DirectionsRendererは検索したルートをマップに描画するクラス
     const directionsRenderer = new google.maps.DirectionsRenderer();
     // #どのマップにルートを描画するかを指定
     directionsRenderer.setMap(window.map);
@@ -40,6 +42,8 @@
       (response, status) => {
         if (status === "OK"){
           directionsRenderer.setDirections(response);
+          // # DirectionsResultはDirectionsServiceから返ってきた検索結果本体。ただのオブジェクトで、ルートの全情報が格納されている
+          window.directionsResult = response;
         } else {
           alert("ルートの取得に失敗しました: " + status);
         }
