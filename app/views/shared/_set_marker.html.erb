@@ -2,7 +2,7 @@
   document.addEventListener("DOMContentLoaded", async () => {
     console.log("マーカーイベントが発火しました");
     // #マップの生成完了まで待機
-    await window.mapsReady;
+    await window.mapApiLoaded;
     
     // #生成済みマップを取得
     const map = window.map;
@@ -13,11 +13,14 @@
       return;
     }
 
+    console.log("addListener前のmapの型:", window.map.constructor.name);
+    console.log("addListenerの有無: ", typeof window.map.addListener);
+
     // #マーカーが無い、という初期状態を作る
     let selectedMarker = null;
 
     // #マップクリックでマーカー配置
-    window.map.addListener("click", (event) => {
+    google.maps.event.addListener(window.map, "click", (event) => {
       console.log("マーカーが置かれました");
     // #既存のマーカーを削除
       if (selectedMarker) {
