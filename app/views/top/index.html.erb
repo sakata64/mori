@@ -1,12 +1,14 @@
-<h1>Sketto</h1>
-<div id="splide" class="splide">
-  <div class="splide__track">
-    <ul class="splide__list">
-      <li class="splide__slide"><img src="<%= asset_path 'intro_page1.png' %>" alt="Slide 01"></li>
-      <li class="splide__slide"><img src="<%= asset_path 'intro_page2.png' %>" alt="Slide 02"></li>
-      <li class="splide__slide"><img src="<%= asset_path 'intro_page3.png' %>" alt="Slide 03"></li>
-    </ul>
+<div class="top-container">
+  <h1>Sketto</h1>
+  <div id="splide" class="splide">
+    <div class="splide__track">
+      <ul class="splide__list">
+        <li class="splide__slide"><img src="<%= asset_path 'intro_page1.png' %>" alt="Slide 01"></li>
+        <li class="splide__slide"><img src="<%= asset_path 'intro_page2.png' %>" alt="Slide 02"></li>
+        <li class="splide__slide"><img src="<%= asset_path 'intro_page3.png' %>" alt="Slide 03"></li>
+      </ul>
+    </div>
   </div>
+  <%= link_to "使ってみる", new_route_path, class: "btn btn-primary btn-lg w-full sm:w-auto" %>
+  <%= link_to "ログインして始める", new_user_session_path, class: "btn btn-secondary btn-lg w-full sm:w-auto" %>
 </div>
-<%= link_to "使ってみる", new_route_path, class: "btn btn-primary" %>
-<%= link_to "ログインして始める", new_user_session_path, class: "btn btn-primary" %>

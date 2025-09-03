@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tailwindcss";
+/* @import "tailwindcss"; */
 
-@import "components/buttons.css";
-@import "components/slider.css";
-@import "pages/top.css";
+@import "./components/buttons.css";
+@import "./components/slider.css"; 
+/* @import "./pages/top.css"; */
