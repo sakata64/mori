@@ -1,0 +1,7 @@
+@reference "tailwindcss";
+
+@layer components {
+  .logo {
+    @apply mx-auto h-20 w-auto;
+  }
+}

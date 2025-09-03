@@ -1,7 +1,10 @@
-.btn-primary {
-  @apply text-white font-bold rounded-lg shadow-lg;
-}
+@reference "tailwindcss";
+@layer components {
+  .btn-primary {
+    @apply text-white font-bold rounded-lg shadow-lg;
+  }
 
-.btn-secondary {
-  @apply border-2 border-indigo-500 text-indigo-500 rounded-lg hover:bg-indigo-50;
+  .btn-mysecondary {
+    @apply border-2 border-indigo-500 text-indigo-500 rounded-lg hover:bg-indigo-50;
+  }
 }

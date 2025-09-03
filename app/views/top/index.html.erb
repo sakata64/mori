@@ -1,5 +1,7 @@
-<div class="top-container">
-  <h1>Sketto</h1>
+<div style="background-color: #FFEFE2;">
+  <h1>
+    <%= image_tag "logo.png", alt: "Sketto", class: "logo" %>
+  </h1>
   <div id="splide" class="splide">
     <div class="splide__track">
       <ul class="splide__list">
@@ -9,6 +11,6 @@
       </ul>
     </div>
   </div>
-  <%= link_to "使ってみる", new_route_path, class: "btn btn-primary btn-lg w-full sm:w-auto" %>
-  <%= link_to "ログインして始める", new_user_session_path, class: "btn btn-secondary btn-lg w-full sm:w-auto" %>
+  <%= link_to "使ってみる", new_route_path, class: "btn btn-mysecondary btn-lg w-full sm:w-auto" %>
+  <%= link_to "ログインして始める", new_user_session_path, class: "btn btn-mysecondary btn-lg w-full sm:w-auto" %>
 </div>
