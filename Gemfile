@@ -19,6 +19,7 @@ gem 'devise'
 gem 'geocoder'
 gem 'bootsnap', require: false
 gem 'dotenv-rails', groups: [:development, :test]
+gem 'cssbundling-rails'
 
 group :development, :test do
   gem 'rspec-rails'
