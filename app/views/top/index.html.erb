@@ -1,5 +1,5 @@
 <div style="background-color: #FFEFE2;">
-  <h1>
+  <h1 class="flex justify-center mt-15 ml-10">
     <%= image_tag "logo.png", alt: "Sketto", class: "logo" %>
   </h1>
   <div id="splide" class="splide">
@@ -11,6 +11,10 @@
       </ul>
     </div>
   </div>
-  <%= render 'shared/component/top_button' %>
-  <%= link_to "ログインして始める", new_user_session_path, class: "btn btn-mysecondary btn-lg w-full sm:w-auto" %>
+  <%= link_to new_route_path do %>
+    <%= image_tag "top_button1", alt: "TopButton1", class: "top_button" %>
+  <% end %>
+  <%= link_to new_user_session_path do %>
+    <%= image_tag "top_button2", alt: "TopButton2", class: "top_button" %>
+  <% end %>
 </div>
