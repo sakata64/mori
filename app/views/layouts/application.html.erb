@@ -11,6 +11,8 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'shared/component/barba_wrapper' do %>
+      <%= yield %>
+    <% end %>
   </body>
 </html>

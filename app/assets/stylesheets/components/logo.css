@@ -1,0 +1,7 @@
+@reference "tailwindcss";
+
+@layer components {
+  .logo {
+    @apply block h-32 w-auto ml-150;
+  }
+}
