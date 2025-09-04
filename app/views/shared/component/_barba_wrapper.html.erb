@@ -1,4 +1,15 @@
 <div id="barba-wrapper" data-barba="wrapper">
   <div class="barba-container" data-barba="container" data-barba-namespace="<%= controller_name %>">
+    <%= yield %>
   </div>
 </div>
+
+<script type="module">
+  import barba from "https://cdn.jsdelivr.net/npm/@barba/core/dist/barba.min.mjs";
+
+  barba.init({
+    transitions:[
+      { /* slide-left の設定 */ }
+    ]
+  });
+</script>

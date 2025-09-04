@@ -1,4 +1,4 @@
-import barba from '@barba/core';
+import barba from "https://cdn.jsdelivr.net/npm/@barba/core/dist/barba.min.mjs";
 
 document.addEventListener('DOMContentLoaded', () => {
   barba.init({
