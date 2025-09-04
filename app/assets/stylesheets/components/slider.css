@@ -1,8 +1,9 @@
 .splide {
-    width: 100%;
     max-width: 500px;
     height: auto;
-    margin: 0;
+    position: relative;
+    left: 20rem;
+    top: -20rem;
   }
   
 .splide__slide img{
