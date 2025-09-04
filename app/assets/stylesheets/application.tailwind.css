@@ -9,3 +9,9 @@
 @import "./components/map.css";
 @import "./components/logo.css";
 /* @import "./pages/top.css"; */
+
+body {
+  background-color: #FFEFE2;
+  /* 0.5sかけて滑らかに背景色が変わる */
+  transition: background-color 0.5s ease;
+}

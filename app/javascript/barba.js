@@ -10,18 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         leave({ current }) {
           return new Promise(resolve => {
+            document.body.style.backgroundColor = '#FFD1DC';
             current.container.style.transform = 'translateX(0)';
-            current.container.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+            current.container.style.transition = 'transform 1.5s ease, opacity 1.5s ease';
             requestAnimationFrame(() => {
               current.container.style.transform = 'translateX(-100%)';
               current.container.style.opacity = '0';
             });
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 1500);
           });
         },
         enter({ next }) {
+          document.body.style.backgroundColor = '#FFEFE2';
           next.container.style.transform = 'translateX(100%)';
-          next.container.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+          next.container.style.transition = 'transform 1.5s ease, opacity 1.5s ease';
           next.container.style.opacity = '1';
           requestAnimationFrame(() => {
             next.container.style.transform = 'translateX(0)';
