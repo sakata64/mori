@@ -23,8 +23,11 @@ COPY Gemfile Gemfile.lock ./
 #bundlerをインストールして依存関係を解決
 RUN gem install bundler && bundle install
 
-#アプリの前ファイルをコピー
+#アプリの全ファイルをコピー
 COPY . .
+
+#アセットをプリコンパイル
+RUN bundle exec rails assets:precompile
 
 #コンテナ外部からアクセス可能にするポート解放
 EXPOSE 3000
