@@ -8,7 +8,12 @@ Rails.application.routes.draw do
 
   root 'top#index'
 
-  resources :routes, only: [:new, :create, :show]
+  resources :routes, only: [:new, :create, :show] do
+    collection do
+      get :walk
+      get :car
+    end
+  end
   # Defines the root path route ("/")
   # root "posts#index"
 end
