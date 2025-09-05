@@ -11,10 +11,7 @@
   <button id="stopNaviBtn">ナビ終了</button>
 
   <div id="map"></div>
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&libraries=places,marker&callback=initMap">
-  </script>
-
+  
   <%= render 'shared/map' %>
   <%= render 'shared/maps_ready' %>
   <%= render 'shared/set_marker' %>

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         leave({ current }) {
           return new Promise(resolve => {
-            document.body.style.backgroundColor = '#FFB883';
+            document.body.style.backgroundColor = '#FDF8F4';
             current.container.style.transform = 'translateX(0)';
             current.container.style.transition = 'transform 1s ease, opacity 1s ease';
             requestAnimationFrame(() => {
@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
             next.container.style.transform = 'translateX(0)';
             console.log("barbaが完了しました");
           });
+        },
+        afterEnter({ next }) {
+          if (next.container.querySelector('#map')) {
+            window.initMap();
+          }
         }
       }
     ]
