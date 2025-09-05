@@ -4,11 +4,13 @@
     const {Place} = await google.maps.importLibrary("places");
     console.log("Placeライブラリが呼ばれました");
 
+    const center = map.getCenter();
+
     const request = {
       textQuery: query,
       fields: ["location"],
       // #東京駅周辺５キロのように検索範囲を与える
-      locationBias: {lat:35.6812, lng:139.7671}
+      locationBias: center,
     };
 
     const result = await Place.searchByText(request);
