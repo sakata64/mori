@@ -57,7 +57,11 @@
 
     console.log("検索結果の並べ替えを行いました");
     
-    const markers = [];
+    // 既存のマーカーを削除
+    if (window.markers && window.markers.length > 0) {
+      window.markers.forEach(m => m.setMap(null));
+    }
+    window.markers = [];
 
     sortedPlaces.forEach(place => {
       const marker = new google.maps.Marker({
@@ -65,7 +69,7 @@
         map: map,
         title: place.displayName,
       });
-      markers.push(marker);
+      window.markers.push(marker);
     });
 
     // 検索結果をリスト表示
@@ -87,12 +91,14 @@
 
     console.log("検索結果をリストで表示しました");
 
+    // forEachはJSの繰り返し処理。マーカーとリストを対応付けてリストのHTMLを作る。
     sortedPlaces.forEach((place, index) => {
-      const marker = markers[index];
+      const marker = window.markers[index];
 
       // マーカークリックで対応するリストへ移動
-      markers[index].addListener("click", () => {
-        highlightMarker(markers[index]);
+      // window.markerにすることでこの処理の外からマーカーを消すことが可能。
+      window.markers[index].addListener("click", () => {
+        highlightMarker(window.markers[index]);
 
         // 対応するリスト要素までスクロール
         const listItem = container.children[index];
