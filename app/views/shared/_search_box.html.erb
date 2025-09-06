@@ -88,6 +88,24 @@
     console.log("検索結果をリストで表示しました");
 
     sortedPlaces.forEach((place, index) => {
+      const marker = markers[index];
+
+      // マーカークリックで対応するリストへ移動
+      markers[index].addListener("click", () => {
+        highlightMarker(markers[index]);
+
+        // 対応するリスト要素までスクロール
+        const listItem = container.children[index];
+        if (listItem) {
+          listItem.scrollIntoView({ behavior: "smooth", block: "center" });
+          // ハイライト効果
+          listItem.style.backgroundColor = "#ffff99";
+          setTimeout(() => {
+            listItem.style.backgroundColor = "";
+          }, 1500);
+        }
+      });
+
       const item = document.createElement("div");
       item.classList.add("result-item");
       item.style.borderBottom = "1px solid #eee";
