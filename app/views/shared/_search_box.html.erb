@@ -1,4 +1,6 @@
 <script>
+  window.RoutePlanner = window.RoutePlanner || {};
+
   // クリックしたマーカーが大きくなる
   function highlightMarker(marker, duration = 1500) {
     if (!marker) return;
@@ -153,10 +155,15 @@
 
       console.log("HTMLを挿入しました");
 
-      //クリックでマップを移動
+      //クリックでマップを移動＋目的地を設定
       item.addEventListener("click", () => {
+        // マップ移動
         map.panTo(place.location);
-        highlightMarker(markers[index]);
+        highlightMarker(window.markers[index]);
+
+        // 目的地設定
+        window.RoutePlanner.destination = place.location;
+        console.log("目的地が設定されました");
       });
     });
   }

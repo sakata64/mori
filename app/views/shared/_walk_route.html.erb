@@ -32,10 +32,16 @@
 
     console.log("ルート描画の準備ができました");
 
+    const dest = window.RoutePlanner && window.RoutePlanner.destination;
+    if (!dest) {
+      alert("目的地が未選択です。検索結果リストから目的地を選んでください。");
+      return;
+    }
+
     directionsService.route(
       {
         origin: currentPos,
-        destination: "小倉駅",
+        destination: dest,
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.WALKING
       },
