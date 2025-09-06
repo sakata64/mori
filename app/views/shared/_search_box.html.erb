@@ -1,4 +1,30 @@
 <script>
+  // クリックしたマーカーが大きくなる
+  function highlightMarker(marker, duration = 1500) {
+    if (!marker) return;
+
+    const originalIcon = marker.getIcon ? marker.getIcon() : null;
+
+    if (originalIcon) {
+      const newIcon = { ...originalIcon };
+      if (newIcon.scaledSize) {
+        newIcon.scaledSize = new google.maps.Size(
+          newIcon.scaledSize.width * 1.5,
+          newIcon.scaledSize.height * 1.5
+        );
+      }
+      marker.setIcon(newIcon);
+    }
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+
+    setTimeout(() => {
+      if (originalIcon) {
+        marker.setIcon(originalIcon);
+      }
+      marker.setAnimation(null);
+    }, duration);
+  }
+
   // #部分一致検索＋ピン設置
   async function searchExactPlace(query) {
     const {Place} = await google.maps.importLibrary("places");
@@ -16,27 +42,30 @@
     console.log(result);
     console.log("検索が実行されました");
 
-   // #結果が一件もなければ終了
-   if (!result.places || result.places.length === 0) {
-    alert("該当する施設が見つかりませんでした");
-    return;
-   }
+    // #結果が一件もなければ終了
+    if (!result.places || result.places.length === 0) {
+      alert("該当する施設が見つかりませんでした");
+      return;
+    }
 
    // 距離順に並べ替え
-   const sortedPlaces = result.places.sort((a,b) => {
-    const distA = google.maps.geometry.spherical.computeDistanceBetween(center, a.location);
-    const distB = google.maps.geometry.spherical.computeDistanceBetween(center, b.location);
-    return distA - distB;
-   });
+    const sortedPlaces = result.places.sort((a,b) => {
+      const distA = google.maps.geometry.spherical.computeDistanceBetween(center, a.location);
+      const distB = google.maps.geometry.spherical.computeDistanceBetween(center, b.location);
+      return distA - distB;
+    });
 
-   console.log("検索結果の並べ替えを行いました");
+    console.log("検索結果の並べ替えを行いました");
     
+    const markers = [];
+
     sortedPlaces.forEach(place => {
-      new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: place.location,
         map: map,
         title: place.displayName,
       });
+      markers.push(marker);
     });
 
     // 検索結果をリスト表示
@@ -52,13 +81,13 @@
       container.style.marginTop = "10px";
 
       mapDiv.parentNode.insertBefore(container, mapDiv.nextSibling);
-    }else{
+    } else {
       container.innerHTML = ""; //前回の結果をクリア
     }
 
     console.log("検索結果をリストで表示しました");
 
-    sortedPlaces.forEach(place => {
+    sortedPlaces.forEach((place, index) => {
       const item = document.createElement("div");
       item.classList.add("result-item");
       item.style.borderBottom = "1px solid #eee";
@@ -84,7 +113,7 @@
 
       // 画像
       let img;
-      if (place.photos && place.photos.length >0){
+      if (place.photos && place.photos.length > 0) {
         img = document.createElement("img");
         img.src = place.photos[0].getURI({ maxWidth: 100, maxHeight: 100 });
         img.style.display = "block";
@@ -103,6 +132,7 @@
       //クリックでマップを移動
       item.addEventListener("click", () => {
         map.panTo(place.location);
+        highlightMarker(markers[index]);
       });
     });
   }
