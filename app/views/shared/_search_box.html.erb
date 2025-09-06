@@ -2,19 +2,19 @@
   // #部分一致検索＋ピン設置
   async function searchExactPlace(query) {
     const {Place} = await google.maps.importLibrary("places");
-    console.log("Placeライブラリが呼ばれました");
-
     const center = map.getCenter();
+    console.log("Placeライブラリが呼ばれました");
 
     const request = {
       textQuery: query,
-      fields: ["location"],
-      // #東京駅周辺５キロのように検索範囲を与える
+      fields: ["location", "displayName", "formattedAddress", "photos"],
+      // #マップの中心周辺５キロのように検索範囲を与える
       locationBias: center,
     };
 
     const result = await Place.searchByText(request);
     console.log(result);
+    console.log("検索が実行されました");
 
    // #結果が一件もなければ終了
    if (!result.places || result.places.length === 0) {
@@ -22,19 +22,89 @@
     return;
    }
 
-   // #最初の一件のlocationにピンを立てる
-    const location = result.places[0].location;
+   // 距離順に並べ替え
+   const sortedPlaces = result.places.sort((a,b) => {
+    const distA = google.maps.geometry.spherical.computeDistanceBetween(center, a.location);
+    const distB = google.maps.geometry.spherical.computeDistanceBetween(center, b.location);
+    return distA - distB;
+   });
+
+   console.log("検索結果の並べ替えを行いました");
     
-    if (window.exactMarker) {
-      window.exactMarker.setMap(null);
-    }
-    window.exactMarker = new google.maps.Marker({
-      position: location,
-      map: map,
+    sortedPlaces.forEach(place => {
+      new google.maps.Marker({
+        position: place.location,
+        map: map,
+        title: place.displayName,
+      });
     });
 
-    // #マップをその位置に移動
-    map.panTo(location);
+    // 検索結果をリスト表示
+    let mapDiv = document.getElementById("map");
+    let container = document.getElementById("resultContainer");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "resultContainer";
+      container.style.maxHeight = "200px";
+      container.style.overflowY = "auto";
+      container.style.border = "1px solid #ccc";
+      container.style.padding = "5px";
+      container.style.marginTop = "10px";
+
+      mapDiv.parentNode.insertBefore(container, mapDiv.nextSibling);
+    }else{
+      container.innerHTML = ""; //前回の結果をクリア
+    }
+
+    console.log("検索結果をリストで表示しました");
+
+    sortedPlaces.forEach(place => {
+      const item = document.createElement("div");
+      item.classList.add("result-item");
+      item.style.borderBottom = "1px solid #eee";
+      item.style.padding = "5px";
+      item.style.cursor = "pointer";
+
+      console.log("div要素を作りました");
+      
+      // 施設名
+      const name = document.createElement("h4");
+      name.textContent = place.displayName;
+      name.style.margin = "0 0 3px 0";
+
+      console.log("h4要素を作りました");
+
+      // 住所
+      const address = document.createElement("p");
+      address.textContent = place.formattedAddress || "";
+      address.style.margin = "0 0 3px 0";
+      address.style.fontSize = "0.9em";
+      address.style.color = "#555";
+      console.log("p要素を作りました");
+
+      // 画像
+      let img;
+      if (place.photos && place.photos.length >0){
+        img = document.createElement("img");
+        img.src = place.photos[0].getURI({ maxWidth: 100, maxHeight: 100 });
+        img.style.display = "block";
+        img.style.marginBottom = "3px";
+
+        console.log("画像を挿入しました");
+      }
+
+      item.appendChild(name);
+      if (img) item.appendChild(img);
+      item.appendChild(address);
+      container.appendChild(item);
+
+      console.log("HTMLを挿入しました");
+
+      //クリックでマップを移動
+      item.addEventListener("click", () => {
+        map.panTo(place.location);
+      });
+    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {
